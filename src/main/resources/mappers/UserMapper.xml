@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wy.scjg.mapper.UserMapper">
+
+    <resultMap id="BaseResultMap" type="com.wy.scjg.bean.User">
+        <id column="id" property="id" />
+        <result column="name" property="name" />
+        <result column="age" property="age" />
+        <result column="email" property="email" />
+        <result column="brith" property="brith" />
+        <result column="did" property="did" />
+        <result column="dname" property="dname" />
+    </resultMap>
+
+    <select id="getUserList" resultMap="BaseResultMap" >
+        select u.*,d.name dname from user u left join dept d on u.did=d.id
+        <where>
+            <if test="user.name!=null and user.name!='' ">
+                and u.name like concat('%',#{user.name},'%')
+            </if>
+            <if test="user.brith!=null">
+                and u.brith=#{user.brith}
+            </if>
+            <if test="user.stime!=null">
+                and u.brith &gt;= #{user.stime}
+            </if>
+            <if test="user.etime!=null">
+                and u.brith &lt;= #{user.etime}
+            </if>
+            <if test="user.did!=null">
+                and u.did = #{user.did}
+            </if>
+        </where>
+    </select>
+
+
+</mapper>
